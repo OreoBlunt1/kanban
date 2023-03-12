@@ -1,0 +1,92 @@
+.Auth {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(180deg, #0F62FE 0%, #BE95FF 100%) no-repeat;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    max-width: 1312px;
+    margin: auto;
+    padding: 0;
+}
+
+.authForm {
+    margin: 0 auto;
+    width: 416px;
+    padding: 32px;
+    border-radius: 16px;
+    background: white;
+}
+
+.authForm h1 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    margin: 0;
+}
+
+.authForm p {
+    margin-bottom: 0;
+    margin-top: 9px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.authForm hr {
+    background-color: rgba(0, 0, 0, 0.08);
+    height: 1px;
+    border: none;
+    margin-top: 25px;
+    margin-bottom: 32px;
+}
+
+.authForm .input {
+    margin: 0;
+    margin-bottom: 32px;
+    width: 100%;
+}
+
+.authForm h2 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+.authForm input {
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 8px;
+    font-family: 'IBM Plex Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 16px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border: none;
+    outline-color: #0F62FE;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.authForm button {
+    width: 100%;
+    background: #0F62FE;
+    border-radius: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-family: 'IBM Plex Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
