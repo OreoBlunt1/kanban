@@ -1,0 +1,17 @@
+.Navbar {
+    display: flex;
+    height: 88px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 42px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.16);
+}
+
+.Icon {
+    cursor: pointer;
+}
+
+.Menu .Icon {
+    margin-left: 20px;
+}

@@ -1,0 +1,20 @@
+.Button {
+    width: 100%;
+    background: #0F62FE;
+    border-radius: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-family: 'IBM Plex Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.Button:disabled {
+    background: rgba(0, 0, 0, 0.08);
+}

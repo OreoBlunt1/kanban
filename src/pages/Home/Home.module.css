@@ -1,0 +1,14 @@
+.Home {
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(180deg, #0F62FE 0%, #BE95FF 100%) no-repeat;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    max-width: 1312px;
+    margin: 0 auto;
+    padding-left: 64px;
+    padding-right: 64px;
+}

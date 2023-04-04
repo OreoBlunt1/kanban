@@ -1,0 +1,33 @@
+.Settings {
+    position: fixed;
+    box-sizing: border-box;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 90;
+    width: 640px;
+    padding: 32px;
+    border-radius: 16px;
+    font-family: 'IBM Plex Sans';
+    background-color: white;
+}
+
+.Settings .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.16);
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+}
+
+.header h1 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    margin: 0;
+}
+
+.close {
+    cursor: pointer;
+}

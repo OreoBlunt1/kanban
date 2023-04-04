@@ -1,5 +1,6 @@
-.Auth {
+.Signup {
     display: flex;
+    font-family: 'IBM Plex Sans';
     padding: 0;
     margin: 0;
     background: linear-gradient(180deg, #0F62FE 0%, #BE95FF 100%) no-repeat;
@@ -72,21 +73,4 @@
     outline-color: #0F62FE;
     width: 100%;
     box-sizing: border-box;
-}
-
-.authForm button {
-    width: 100%;
-    background: #0F62FE;
-    border-radius: 8px;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    font-family: 'IBM Plex Sans';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    color: white;
-    border: none;
-    cursor: pointer;
 }

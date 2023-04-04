@@ -1,0 +1,58 @@
+.Input {
+    position: relative;
+    margin: 0;
+    margin-bottom: 32px;
+    width: 100%;
+    font-family: 'IBM Plex Sans';
+}
+
+.Input input {
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 8px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 16px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border: none;
+    outline-width: 5px;
+    outline-color: #0F62FE;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.Input button {
+    position: absolute;
+    top: 15px;
+    right: 9px;
+    height: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.Input h2 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+.Input span {
+    font-family: 'IBM Plex Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #DA1E28;
+}
+
+.Input.invalid button {
+    top: 5px;
+}
+
+.Input.valid h2 {
+    color: black;
+}
