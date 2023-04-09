@@ -13,7 +13,7 @@ class User(db.Model):
 
 class Lobby(db.Model):
     Lobby_ID = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    Lobby_Name = db.Column(db.String(200), unique=True)
+    Lobby_Name = db.Column(db.String(200))
     Creator = db.Column(db.Integer, db.ForeignKey('user.User_ID'))
 
 
