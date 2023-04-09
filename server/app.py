@@ -11,9 +11,6 @@ db.init_app(app)
 
 @app.route("/")
 def on_request():
-    # db.session.add(
-    #     User(Login="рон", Password="поттер", Photo_Src="/src/img/рон", Email="ron@mail.ru"))
-    # db.session.commit()
     test_insert()
     return jsonify({"message": "Hello!"})
 
