@@ -15,5 +15,10 @@ def on_request():
     return jsonify({"message": "Hello!"})
 
 
+@app.route("/login", methods=['POST'])
+def on_post():
+    return jsonify({"message": "Hello!"})
+
+
 if __name__ == "__main__":
     app.run(debug=True)
