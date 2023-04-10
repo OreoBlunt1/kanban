@@ -1,4 +1,6 @@
-from .dbModel import User, Lobby, LobbyUser, Task,  db
+from .dbModel import User, Lobby, LobbyUser, Task, db
+
+
 def test_insert():
     pass
     # db.session.add(
@@ -8,3 +10,24 @@ def test_insert():
     # res = db.session.query(Task.Task_ID, Task.Task_Tittle, Task.Lobby_ID).all()
     # print(res[0].Lobby_ID)
     # db.session.commit()
+
+
+def register_user(data):
+    login = db.session.query(User.Login).where(User.Login==data["username"]).all()
+    is_username_reserved = True if login else False
+    email = db.session.query(User.Email).where(User.Email == data["email"]).all()
+    is_email_reserved = True if email else False
+    response = {
+        "isUsernameReserved": is_username_reserved,
+        "isEmailReserved": is_email_reserved
+    }
+    if not is_email_reserved and not is_username_reserved:
+        sql_add_data(data)
+    return response
+
+def sql_add_data(data):
+    login = data["username"]
+    password = data["password"]
+    email = data["email"]
+    db.session.add(User(Login=login, Password=password, Email=email, Photo_Src="/"))
+    db.session.commit()

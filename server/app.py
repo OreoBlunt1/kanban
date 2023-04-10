@@ -1,6 +1,7 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from models.dbQueries import test_insert
-from models.dbModel import User, db
+from models.dbModel import db
+from controllers.controllers import add_user
 
 app = Flask(__name__)
 app.secret_key = "2132443452343"
@@ -16,8 +17,10 @@ def on_request():
 
 
 @app.route("/login", methods=['POST'])
-def on_post():
-    return jsonify({"message": "Hello!"})
+def login():
+    res = add_user(request.json)
+    print(res)
+    return jsonify(res)
 
 
 if __name__ == "__main__":
