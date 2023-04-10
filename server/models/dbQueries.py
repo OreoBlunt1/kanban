@@ -1,5 +1,5 @@
 from .dbModel import User, Lobby, LobbyUser, Task, db
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def test_insert():
@@ -14,7 +14,7 @@ def test_insert():
 
 
 def register_user(data):
-    login = db.session.query(User.Login).where(User.Login==data["username"]).all()
+    login = db.session.query(User.Login).where(User.Login == data["username"]).all()
     is_username_reserved = True if login else False
     email = db.session.query(User.Email).where(User.Email == data["email"]).all()
     is_email_reserved = True if email else False
@@ -23,13 +23,27 @@ def register_user(data):
         "isEmailReserved": is_email_reserved
     }
     if not is_email_reserved and not is_username_reserved:
-        sql_add_data(data)
+        sql_add_user(data)
     return response
 
-def sql_add_data(data):
+
+def sql_add_user(data):
     login = data["username"]
     password = data["password"]
     email = data["email"]
     hash = generate_password_hash(password)
     db.session.add(User(Login=login, Password=hash, Email=email, Photo_Src="/"))
     db.session.commit()
+
+
+def login_user(data):
+    email = db.session.query(User.Email).where(User.Email == data["email"]).all()
+    is_email_exists = True if email else False
+    if not is_email_exists:
+        return {"isUserRegistered": False}
+    password = db.session.query(User.Password).where(User.Email == data["email"])[0][0]
+    is_password_correct = check_password_hash(password, data["password"])
+    return {
+        "isUserRegistered": True,
+        "isPasswordCorrect": is_password_correct
+    }
