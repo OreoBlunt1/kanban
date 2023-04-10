@@ -1,4 +1,5 @@
 from .dbModel import User, Lobby, LobbyUser, Task, db
+from werkzeug.security import generate_password_hash
 
 
 def test_insert():
@@ -29,5 +30,6 @@ def sql_add_data(data):
     login = data["username"]
     password = data["password"]
     email = data["email"]
-    db.session.add(User(Login=login, Password=password, Email=email, Photo_Src="/"))
+    hash = generate_password_hash(password)
+    db.session.add(User(Login=login, Password=hash, Email=email, Photo_Src="/"))
     db.session.commit()
