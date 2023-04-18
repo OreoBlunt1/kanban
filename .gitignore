@@ -1,8 +1,2 @@
 .idea
 .vscode
-server/.idea
-server/__pycache__
-server/models/__pycache__
-server/controllers/__pycache__
-server/instance/task_manager.db
-server/test.py
