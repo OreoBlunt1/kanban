@@ -1,2 +1,6 @@
 .idea
 .vscode
+server/models/__pycache__
+FastAPIServer/migrations/__pycache__
+FastAPIServer/models/__pycache__
+FastAPIServer/__pycache__
