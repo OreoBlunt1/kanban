@@ -4,3 +4,6 @@ server/models/__pycache__
 FastAPIServer/migrations/__pycache__
 FastAPIServer/models/__pycache__
 FastAPIServer/__pycache__
+FastAPIServer/migrations/versions/__pycache__
+FastAPIServer/src/auth/__pycache__
+FastAPIServer/src/kanban/__pycache__
