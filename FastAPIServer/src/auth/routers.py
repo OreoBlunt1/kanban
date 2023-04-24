@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi_users import FastAPIUsers
 from starlette import status
 
@@ -12,17 +12,11 @@ fastapi_users = FastAPIUsers[User, int](
 )
 
 jwt = APIRouter(
-    prefix="/kanban",
-    tags=['kanban']
+    prefix="/jwt",
+    tags=['jwt']
 )
 
 
-@jwt.get("/apikey")
-def generate_api_key(user: User = Depends(fastapi_users.current_user(active=True))):
-    # if not user:
-    #     raise HTTPException(
-    #         status_code=status.HTTP_401_UNAUTHORIZED,
-    #         detail="You need to be authenticated to generate an API key",
-    #     )
-    token = fastapi_users.authenticator.current_user_token()
-    return {"access_token": token}
+@jwt.get("/token")
+def generate_api_key(request: Request, user: User = Depends(fastapi_users.current_user(active=True))):
+    return {"access_token": request.cookies["user_jwt"]}

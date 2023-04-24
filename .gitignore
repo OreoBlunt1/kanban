@@ -7,3 +7,4 @@ FastAPIServer/__pycache__
 FastAPIServer/migrations/versions/__pycache__
 FastAPIServer/src/auth/__pycache__
 FastAPIServer/src/kanban/__pycache__
+FastAPIServer/kanban.db
