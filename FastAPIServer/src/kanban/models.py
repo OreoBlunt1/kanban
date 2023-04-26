@@ -1,7 +1,9 @@
 import sqlalchemy as db
+from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 
 metadata = db.MetaData()
+Base = declarative_base()
 
 user = db.Table(
     "user",
@@ -24,6 +26,7 @@ lobby = db.Table(
     db.Column("lobby_name", db.String(200)),
     db.Column("creator", db.Integer, db.ForeignKey('user.id'))
 )
+
 
 lobby_user = db.Table(
     "lobby_user",
