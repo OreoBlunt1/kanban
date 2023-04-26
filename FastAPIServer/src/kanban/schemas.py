@@ -2,11 +2,16 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class Lobby(BaseModel):
-    lobby_id: Optional[int]
+class LobbyGet(BaseModel):
+    lobby_id: int
     lobby_name: str
     creator: int
 
 
-class PutLobby(BaseModel):
+class LobbyPatch(BaseModel):
     lobby_name: str
+
+
+class LobbyPost(BaseModel):
+    lobby_name: str
+    creator: int

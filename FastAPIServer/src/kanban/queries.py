@@ -31,3 +31,10 @@ async def update_lobby(data, id, session: AsyncSession):
         return {"detail": "done"}
     else:
         return {"detail": "nothing to update"}
+
+
+async def delete_lobby(id, session: AsyncSession):
+    stmt = lobby.delete().where(lobby.c.lobby_id == id)
+    await session.execute(stmt)
+    await session.commit()
+    return {"detail": "done"}
