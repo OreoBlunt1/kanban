@@ -15,3 +15,7 @@ class LobbyPatch(BaseModel):
 class LobbyPost(BaseModel):
     lobby_name: str
     creator: int
+
+class LobbyUserPost(BaseModel):
+    username: str
+    lobby_id: int

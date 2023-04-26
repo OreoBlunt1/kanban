@@ -38,3 +38,14 @@ async def delete_lobby(id, session: AsyncSession):
     await session.execute(stmt)
     await session.commit()
     return {"detail": "done"}
+
+
+async def insert_user(data, session: AsyncSession):
+    lobby_user_data = data.dict()
+    sstmt = db.select(user.c.id).where(user.c.login == lobby_user_data.get("username"))
+    res = await session.execute(sstmt)
+    istmt = db.insert(lobby_user).values(user_id=res.fetchone()[0], lobby_id=lobby_user_data.get("lobby_id"))
+    await session.execute(istmt)
+    await session.commit()
+    return {"detail": "done"}
+
