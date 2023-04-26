@@ -13,5 +13,5 @@ async def get_one_lobby(id, session):
     return await select_lobby(id, session)
 
 
-async def put_lobby(data, id, session):
+async def patch_lobby(data, id, session):
     return await update_lobby(data, id, session)
