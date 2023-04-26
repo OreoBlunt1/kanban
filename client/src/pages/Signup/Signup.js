@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import classes from "./Signup.module.css";
-import Input from "../../components/UI/Input/Input";
-import { NavLink, useNavigate } from "react-router-dom";
-import Button from "../../components/UI/Button/Button";
+import React, { useState } from 'react';
+import classes from './Signup.module.css';
+import Input from '../../components/UI/Input/Input';
+import { NavLink, useNavigate } from 'react-router-dom';
+import Button from '../../components/UI/Button/Button';
+import axios from 'axios';
 
 function Signup() {
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [formControls, setFormConstols] = useState({
 		username: {
-			value: "",
-			type: "username",
-			label: "Имя пользователя",
-			errorMessage: "Имя пользователя не должно содержать пробелов",
-			placeholder: "sasuke",
+			value: '',
+			type: 'username',
+			label: 'Имя пользователя',
+			errorMessage: 'Имя пользователя не должно содержать пробелов',
+			placeholder: 'sasuke',
 			valid: false,
 			touched: false,
 			validation: {
@@ -21,11 +22,11 @@ function Signup() {
 			},
 		},
 		email: {
-			value: "",
-			type: "email",
-			label: "Адрес электронной почты",
-			errorMessage: "Введите правильный email",
-			placeholder: "blin@blinskiy.com",
+			value: '',
+			type: 'email',
+			label: 'Адрес электронной почты',
+			errorMessage: 'Введите правильный email',
+			placeholder: 'blin@blinskiy.com',
 			valid: false,
 			touched: false,
 			validation: {
@@ -34,11 +35,11 @@ function Signup() {
 			},
 		},
 		password: {
-			value: "",
-			type: "password",
-			label: "Пароль",
-			placeholder: "••••••••••",
-			errorMessage: "Минимальная длина пароля 8 символов",
+			value: '',
+			type: 'password',
+			label: 'Пароль',
+			placeholder: '••••••••••',
+			errorMessage: 'Минимальная длина пароля 8 символов',
 			valid: false,
 			touched: false,
 			validation: {
@@ -47,11 +48,11 @@ function Signup() {
 			},
 		},
 		checkPassword: {
-			value: "",
-			type: "password",
-			label: "Повторите пароль",
-			placeholder: "••••••••••",
-			errorMessage: "Пароли не совпадают",
+			value: '',
+			type: 'password',
+			label: 'Повторите пароль',
+			placeholder: '••••••••••',
+			errorMessage: 'Пароли не совпадают',
 			valid: false,
 			touched: false,
 			validation: {
@@ -79,7 +80,7 @@ function Signup() {
 		let isValid = true;
 
 		if (validation.required) {
-			isValid = value.trim() !== "" && isValid;
+			isValid = value.trim() !== '' && isValid;
 		}
 
 		if (validation.email) {
@@ -91,18 +92,18 @@ function Signup() {
 		}
 
 		if (validation.isEqualCheck) {
-			isValid = value === formControls["password"].value && isValid;
+			isValid = value === formControls['password'].value && isValid;
 		}
 
 		if (validation.spaces) {
-			isValid = value.replace(" ", "") === value.trim() && isValid;
+			isValid = value.replace(' ', '') === value.trim() && isValid;
 		}
 
 		return isValid;
 	};
 
 	const isPassEqual = (value) => {
-		return value === formControls["checkPassword"].value;
+		return value === formControls['checkPassword'].value;
 	};
 
 	const onChangeHandler = (event, controlName) => {
@@ -113,9 +114,9 @@ function Signup() {
 		control.touched = true;
 		control.valid = validateControl(control.value, control.validation);
 
-		const checkPass = newFormControls["checkPassword"];
+		const checkPass = newFormControls['checkPassword'];
 
-		if (controlName === "password") {
+		if (controlName === 'password') {
 			checkPass.valid = isPassEqual(control.value);
 		}
 
@@ -148,6 +149,9 @@ function Signup() {
 					onChange={(event) => {
 						onChangeHandler(event, controlName);
 					}}
+					onKeyDown={(event) => {
+						onEnterPressedHandler(event);
+					}}
 				/>
 			);
 		});
@@ -157,11 +161,21 @@ function Signup() {
 		event.preventDefault();
 	};
 
-	const goHome = () => {
-		if (isFormValid) {
-			navigate("/home");
+	const onEnterPressedHandler = (event) => {
+		if (event.key === 'Enter') {
+			if (isFormValid) {
+				navigate('/home');
+			}
 		}
 	};
+
+	const useGoHome = () => {
+		if (isFormValid) {
+			navigate('/home');
+		}
+	};
+
+	const registerUser = () => {};
 
 	return (
 		<div className={classes.Signup}>
@@ -173,7 +187,7 @@ function Signup() {
 					</p>
 					<hr />
 					{renderInputs()}
-					<Button onClick={goHome}>Зарегистрироваться</Button>
+					<Button onClick={useGoHome}>Зарегистрироваться</Button>
 				</form>
 			</div>
 		</div>
