@@ -49,3 +49,26 @@ async def insert_user(data, session: AsyncSession):
     await session.commit()
     return {"detail": "done"}
 
+
+async def delete_user(lobby_id, user_id, session: AsyncSession):
+    stmt = lobby_user.delete().where(lobby_user.c.user_id == user_id and lobby_user.c.lobby_id == lobby_id)
+    await session.execute(stmt)
+    await session.commit()
+    return {"detail": "done"}
+
+async def select_profile(user_id, session: AsyncSession):
+    participant_stmt = db.select(lobby).join(lobby_user, lobby.c.lobby_id == lobby_user.c.lobby_id)\
+        .where(lobby_user.c.user_id == user_id)
+    res = await session.execute(participant_stmt)
+    participant = res.mappings().fetchall()
+    owner_stmt = db.select(lobby).where(lobby.c.creator == user_id)
+    res = await session.execute(owner_stmt)
+    owner = res.mappings().fetchall()
+    user_stmt = db.select(user).where(user.c.id == user_id)
+    res = await session.execute(user_stmt)
+    user_info = res.mappings().fetchone()
+    user_data = dict()
+    user_data["info"] = user_info
+    user_data["as_owner"] = owner
+    user_data["as_participant"] = participant
+    return user_data

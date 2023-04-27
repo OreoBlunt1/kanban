@@ -1,5 +1,6 @@
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
+from src.auth.schemas import UserRead
 
 
 class LobbyGet(BaseModel):
@@ -19,3 +20,8 @@ class LobbyPost(BaseModel):
 class LobbyUserPost(BaseModel):
     username: str
     lobby_id: int
+
+class Profile(BaseModel):
+    info: UserRead
+    as_owner: List[LobbyGet]
+    as_participant: List[LobbyGet]
