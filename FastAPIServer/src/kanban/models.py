@@ -41,8 +41,8 @@ task = db.Table(
     metadata,
     db.Column("task_id", db.Integer, autoincrement=True, primary_key=True),
     db.Column("task_tittle", db.String(200)),
-    db.Column("task_deadline", db.TIMESTAMP, default=datetime.now()),
-    db.Column("task_inittime", db.TIMESTAMP),
+    db.Column("task_deadline", db.TIMESTAMP),
+    db.Column("task_inittime", db.TIMESTAMP, default=datetime.now()),
     db.Column("task_status", db.String(200)),
     db.Column("actor", db.String(200)),
     db.Column("lobby_id", db.Integer, db.ForeignKey('lobby.lobby_id'))

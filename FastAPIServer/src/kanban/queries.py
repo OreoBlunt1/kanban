@@ -7,7 +7,7 @@ async def insert_lobby(data, session: AsyncSession):
     stmt = db.insert(lobby).values(**data.dict())
     await session.execute(stmt)
     await session.commit()
-    return {"result": "done"}
+    return {"detail": "done"}
 
 
 async def select_lobbies(session: AsyncSession):
@@ -56,8 +56,9 @@ async def delete_user(lobby_id, user_id, session: AsyncSession):
     await session.commit()
     return {"detail": "done"}
 
+
 async def select_profile(user_id, session: AsyncSession):
-    participant_stmt = db.select(lobby).join(lobby_user, lobby.c.lobby_id == lobby_user.c.lobby_id)\
+    participant_stmt = db.select(lobby).join(lobby_user, lobby.c.lobby_id == lobby_user.c.lobby_id) \
         .where(lobby_user.c.user_id == user_id)
     res = await session.execute(participant_stmt)
     participant = res.mappings().fetchall()
@@ -72,3 +73,12 @@ async def select_profile(user_id, session: AsyncSession):
     user_data["as_owner"] = owner
     user_data["as_participant"] = participant
     return user_data
+
+
+async def insert_task(task_data, session: AsyncSession):
+    data_dict = task_data.dict()
+    data_dict["task_status"] = data_dict["task_status"].value
+    stmt = db.insert(task).values(**data_dict)
+    await session.execute(stmt)
+    await session.commit()
+    return {"detail": "done"}

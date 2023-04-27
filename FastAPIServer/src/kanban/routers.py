@@ -1,12 +1,12 @@
 from typing import List
 from fastapi import APIRouter
 from ..auth.routers import fastapi_users
-from .schemas import LobbyGet, LobbyPatch, LobbyPost, LobbyUserPost, Profile
+from .schemas import LobbyGet, LobbyPatch, LobbyPost, LobbyUserPost, Profile, TaskPost
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_async_session
 from .queries import insert_lobby, select_lobbies, select_lobby, update_lobby, delete_lobby, insert_user, delete_user, \
-    select_profile
+    select_profile, insert_task
 
 # current_user =
 kanban = APIRouter(
@@ -77,6 +77,11 @@ async def get_profile(user_id: int, session: AsyncSession = Depends(get_async_se
     get user profile info
     """
     return await select_profile(user_id, session)
+
+
+@kanban.post("/task")
+async def create_task(task: TaskPost, session: AsyncSession = Depends(get_async_session)):
+    return await insert_task(task, session)
 
 
 def create_error(field: str) -> dict:
