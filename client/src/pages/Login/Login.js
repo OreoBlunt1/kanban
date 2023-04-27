@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import classes from "./Login.module.css";
-import { NavLink, useNavigate } from "react-router-dom";
-import Input from "../../components/UI/Input/Input";
-import Button from "../../components/UI/Button/Button";
+import React, { useState } from 'react';
+import classes from './Login.module.css';
+import { NavLink, useNavigate } from 'react-router-dom';
+import Input from '../../components/UI/Input/Input';
+import Button from '../../components/UI/Button/Button';
 
 function Auth() {
 	const navigate = useNavigate();
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [formControls, setFormConstols] = useState({
 		email: {
-			value: "",
-			type: "email",
-			label: "Адрес электронной почты",
-			errorMessage: "Введите правильный email",
-			placeholder: "blin@blinskiy.com",
+			value: '',
+			type: 'email',
+			label: 'Адрес электронной почты',
+			errorMessage: 'Введите правильный email',
+			placeholder: 'blin@blinskiy.com',
 			valid: false,
 			touched: false,
 			validation: {
@@ -22,11 +22,11 @@ function Auth() {
 			},
 		},
 		password: {
-			value: "",
-			type: "password",
-			label: "Пароль",
-			placeholder: "••••••••••",
-			errorMessage: "Минимальная длина пароля 8 символов",
+			value: '',
+			type: 'password',
+			label: 'Пароль',
+			placeholder: '••••••••••',
+			errorMessage: 'Минимальная длина пароля 8 символов',
 			valid: false,
 			touched: false,
 			validation: {
@@ -52,7 +52,7 @@ function Auth() {
 		let isValid = true;
 
 		if (validation.required) {
-			isValid = value.trim() !== "" && isValid;
+			isValid = value.trim() !== '' && isValid;
 		}
 
 		if (validation.email) {
@@ -103,9 +103,20 @@ function Auth() {
 					onChange={(event) => {
 						onChangeHandler(event, controlName);
 					}}
+					onKeyDown={(event) => {
+						onEnterPressedHandler(event);
+					}}
 				/>
 			);
 		});
+	};
+
+	const onEnterPressedHandler = (event) => {
+		if (event.key === 'Enter') {
+			if (isFormValid) {
+				navigate('/home');
+			}
+		}
 	};
 
 	const submitHandler = (event) => {
@@ -113,9 +124,9 @@ function Auth() {
 	};
 
 	const useGoHome = () => {
-		console.log("sksdk");
+		console.log('sksdk');
 		if (isFormValid) {
-			navigate("/home");
+			navigate('/home');
 		}
 	};
 
@@ -125,7 +136,7 @@ function Auth() {
 				<form className={classes.authForm} onSubmit={submitHandler}>
 					<h1>Вход в приложение</h1>
 					<p>
-						Нет аккаунта? <NavLink to={"/signup"}>Зарегистрируйтесь</NavLink>
+						Нет аккаунта? <NavLink to={'/signup'}>Зарегистрируйтесь</NavLink>
 					</p>
 					<hr />
 					{renderInputs()}

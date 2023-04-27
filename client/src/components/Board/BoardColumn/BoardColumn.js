@@ -1,61 +1,41 @@
-import React, { useState } from "react";
-import AddTask from "../../AddTask/AddTask";
-import classes from "./BoardColumn.module.css";
-import { ReactComponent as AddEmpty } from "./img/AddEmpty.svg";
-import { ReactComponent as MoreHorizontal } from "./img/MoreHorizontal.svg";
-import Task from "./Task/Task";
-import update from "immutability-helper";
+import React, { useState } from 'react';
+import AddTask from '../../AddTask/AddTask';
+import classes from './BoardColumn.module.css';
+import { ReactComponent as AddEmpty } from './img/AddEmpty.svg';
+import { ReactComponent as MoreHorizontal } from './img/MoreHorizontal.svg';
+import Task from './Task/Task';
+import update from 'immutability-helper';
 
 function BoardColumn(props) {
 	const [isAddTask, setIsAddTask] = useState(false);
 	const [tasks, setTasks] = useState([]);
 
-	const addTask = (taskControls) => {
+	const addTask = (taskControls, date) => {
 		setTasks(
 			update(tasks, {
 				$push: [
 					{
-						text: taskControls["text"].value,
-						date: taskControls["date"].value,
+						text: taskControls['text'].value,
+						date: dateDiffInDays(date),
 					},
 				],
 			})
 		);
 	};
 
+	function dateDiffInDays(date) {
+		const currentDate = new Date();
+		const dateDiff = date - currentDate;
+		const days = Math.round(dateDiff / 86400000);
+		return days;
+	}
+
 	function toggleAddTask() {
 		setIsAddTask((prev) => !prev);
 	}
 
 	const updateTasks = (newTasks) => {
-		console.log("updateTasks");
-		setTasks(newTasks);
-	};
-
-	const handleDrop = (e) => {
-		e.preventDefault();
-		const dragIndex = e.dataTransfer.getData("dragIndex");
-		console.log(dragIndex);
-		const hoverIndex = tasks.length; // drop to the end of the column
-		const dragTask = tasks[dragIndex];
-
-		if (dragIndex === hoverIndex) {
-			return;
-		}
-
-		console.log(dragIndex);
-
-		const newTasks = update(tasks, {
-			$push: [
-				{
-					text: tasks[dragIndex].text,
-					date: tasks[dragIndex].date,
-				},
-			],
-		});
-
-		console.log(newTasks);
-
+		console.log('updateTasks');
 		setTasks(newTasks);
 	};
 
@@ -63,8 +43,8 @@ function BoardColumn(props) {
 		return tasks.map((task, index) => {
 			return (
 				<Task
-					text={task["text"]}
-					date={task["date"]}
+					text={task['text']}
+					date={task['date']}
 					key={index}
 					index={index}
 					tasks={tasks}
@@ -74,17 +54,9 @@ function BoardColumn(props) {
 		});
 	}
 
-	const handleDragOver = (e) => {
-		e.preventDefault();
-	};
-
 	return (
 		<>
-			<div
-				onDrop={handleDrop}
-				onDragOver={handleDragOver}
-				className={classes.BoardColumn}
-			>
+			<div className={classes.BoardColumn}>
 				<div className={classes.Header}>
 					<span>{props.type}</span>
 					<div className={classes.TaskIcon}>
