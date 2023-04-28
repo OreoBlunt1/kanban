@@ -81,21 +81,33 @@ async def get_profile(user_id: int, session: AsyncSession = Depends(get_async_se
 
 @kanban.post("/task")
 async def create_task(task: TaskPost, session: AsyncSession = Depends(get_async_session)):
+    """
+    create new task
+    """
     return await insert_task(task, session)
 
 
 @kanban.get("/task", response_model=List[TaskGet])
 async def get_tasks(session: AsyncSession = Depends(get_async_session)):
+    """
+    get all tasks
+    """
     return await select_tasks(session)
 
 
 @kanban.get("/task/{task_id}", response_model=TaskGet)
 async def get_task(task_id: int, session: AsyncSession = Depends(get_async_session)):
+    """
+    get specific task by task_id
+    """
     return await select_task(task_id, session)
 
 
 @kanban.get("/lobbytasks/{lobby_id}", response_model=List[TaskGet])
 async def get_lobby_tasks(lobby_id: int, session: AsyncSession = Depends(get_async_session)):
+    """
+    get tasks of specific lobby
+    """
     return await select_lobby_tasks(lobby_id, session)
 
 
