@@ -1,12 +1,12 @@
 from typing import List
 from fastapi import APIRouter
 from ..auth.routers import fastapi_users
-from .schemas import LobbyGet, LobbyPatch, LobbyPost, LobbyUserPost, Profile, TaskPost
+from .schemas import LobbyGet, LobbyPatch, LobbyPost, LobbyUserPost, Profile, TaskPost, TaskGet
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_async_session
 from .queries import insert_lobby, select_lobbies, select_lobby, update_lobby, delete_lobby, insert_user, delete_user, \
-    select_profile, insert_task
+    select_profile, insert_task, select_tasks, select_task, select_lobby_tasks
 
 # current_user =
 kanban = APIRouter(
@@ -82,6 +82,21 @@ async def get_profile(user_id: int, session: AsyncSession = Depends(get_async_se
 @kanban.post("/task")
 async def create_task(task: TaskPost, session: AsyncSession = Depends(get_async_session)):
     return await insert_task(task, session)
+
+
+@kanban.get("/task", response_model=List[TaskGet])
+async def get_tasks(session: AsyncSession = Depends(get_async_session)):
+    return await select_tasks(session)
+
+
+@kanban.get("/task/{task_id}", response_model=TaskGet)
+async def get_task(task_id: int, session: AsyncSession = Depends(get_async_session)):
+    return await select_task(task_id, session)
+
+
+@kanban.get("/lobbytasks/{lobby_id}", response_model=List[TaskGet])
+async def get_lobby_tasks(lobby_id: int, session: AsyncSession = Depends(get_async_session)):
+    return await select_lobby_tasks(lobby_id, session)
 
 
 def create_error(field: str) -> dict:

@@ -82,3 +82,21 @@ async def insert_task(task_data, session: AsyncSession):
     await session.execute(stmt)
     await session.commit()
     return {"detail": "done"}
+
+
+async def select_tasks(session: AsyncSession):
+    stmt = db.select(task, lobby).join(lobby, task.c.lobby_id == lobby.c.lobby_id)
+    res = await session.execute(stmt)
+    return res.mappings().fetchall()
+
+
+async def select_task(task_id, session: AsyncSession):
+    stmt = db.select(task, lobby).join(lobby, task.c.lobby_id == lobby.c.lobby_id).where(task.c.task_id == task_id)
+    res = await session.execute(stmt)
+    return res.mappings().fetchone()
+
+
+async def select_lobby_tasks(lobby_id, session: AsyncSession):
+    stmt = db.select(task, lobby).join(lobby, task.c.lobby_id == lobby.c.lobby_id).where(task.c.lobby_id == lobby_id)
+    res = await session.execute(stmt)
+    return res.mappings().fetchall()

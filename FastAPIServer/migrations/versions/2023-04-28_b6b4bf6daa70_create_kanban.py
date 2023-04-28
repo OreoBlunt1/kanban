@@ -1,8 +1,8 @@
-"""create kanban db
+"""create_kanban
 
-Revision ID: 60e94728d8be
+Revision ID: b6b4bf6daa70
 Revises: f229044a900a
-Create Date: 2023-04-24 15:06:19.369871
+Create Date: 2023-04-28 13:21:13.706469
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '60e94728d8be'
+revision = 'b6b4bf6daa70'
 down_revision = 'f229044a900a'
 branch_labels = None
 depends_on = None
@@ -39,6 +39,7 @@ def upgrade() -> None:
     sa.Column('task_deadline', sa.TIMESTAMP(), nullable=True),
     sa.Column('task_inittime', sa.TIMESTAMP(), nullable=True),
     sa.Column('task_status', sa.String(length=200), nullable=True),
+    sa.Column('actor', sa.String(length=200), nullable=True),
     sa.Column('lobby_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['lobby_id'], ['lobby.lobby_id'], ),
     sa.PrimaryKeyConstraint('task_id')

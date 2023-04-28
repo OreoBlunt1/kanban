@@ -44,3 +44,16 @@ class TaskPost(BaseModel):
     task_status: TaskStatus
     actor: str
     lobby_id: int
+
+
+class TaskGet(BaseModel):
+    task_id: int
+    task_tittle: str
+    task_inittime: datetime
+    task_deadline: datetime
+    task_status: TaskStatus
+    actor: str
+    lobby_id: int
+    lobby_name: str
+    creator: int
+
