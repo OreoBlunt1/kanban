@@ -1,12 +1,14 @@
 from typing import List
 from fastapi import APIRouter
 from ..auth.routers import fastapi_users
-from .schemas import LobbyGet, LobbyPatch, LobbyPost, LobbyUserPost, Profile, TaskPost, TaskGet
+from .schemas import LobbyGet, LobbyPatch, LobbyPost, LobbyUserPost, Profile, TaskPost, TaskGet, TaskStatusPatch, \
+    TaskTittlePatch, TaskDeadlinePatch, TaskActorPatch
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_async_session
 from .queries import insert_lobby, select_lobbies, select_lobby, update_lobby, delete_lobby, insert_user, delete_user, \
-    select_profile, insert_task, select_tasks, select_task, select_lobby_tasks
+    select_profile, insert_task, select_tasks, select_task, select_lobby_tasks, delete_task, update_task_status, \
+    update_task_tittle, update_task_deadline, update_task_actor
 
 # current_user =
 kanban = APIRouter(
@@ -109,6 +111,46 @@ async def get_lobby_tasks(lobby_id: int, session: AsyncSession = Depends(get_asy
     get tasks of specific lobby
     """
     return await select_lobby_tasks(lobby_id, session)
+
+
+@kanban.delete("/task/{task_id}")
+async def remove_task(task_id: int, session: AsyncSession = Depends(get_async_session)):
+    """
+    delete task
+    """
+    return await delete_task(task_id, session)
+
+
+@kanban.patch("/task/{task_id}/status")
+async def update_status(task_id: int, task_data: TaskStatusPatch, session: AsyncSession = Depends(get_async_session)):
+    """
+    update task status
+    """
+    return await update_task_status(task_id, task_data, session)
+
+
+@kanban.patch("/task/{task_id}/tittle")
+async def update_tittle(task_id: int, task_data: TaskTittlePatch, session: AsyncSession = Depends(get_async_session)):
+    """
+    update task tittle
+    """
+    return await update_task_tittle(task_id, task_data, session)
+
+
+@kanban.patch("/task/{task_id}/deadline")
+async def update_deadline(task_id: int, task_data: TaskDeadlinePatch, session: AsyncSession = Depends(get_async_session)):
+    """
+    update task deadline
+    """
+    return await update_task_deadline(task_id, task_data, session)
+
+
+@kanban.patch("/task/{task_id}/actor")
+async def update_actor(task_id: int, task_data: TaskActorPatch, session: AsyncSession = Depends(get_async_session)):
+    """
+    update task actor
+    """
+    return await update_task_actor(task_id, task_data, session)
 
 
 def create_error(field: str) -> dict:

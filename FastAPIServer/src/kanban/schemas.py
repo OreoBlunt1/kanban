@@ -57,3 +57,18 @@ class TaskGet(BaseModel):
     lobby_name: str
     creator: int
 
+
+class TaskStatusPatch(BaseModel):
+    new_status: TaskStatus
+
+
+class TaskTittlePatch(BaseModel):
+    new_tittle: str
+
+
+class TaskActorPatch(BaseModel):
+    new_actor: str
+
+
+class TaskDeadlinePatch(BaseModel):
+    new_deadline: datetime

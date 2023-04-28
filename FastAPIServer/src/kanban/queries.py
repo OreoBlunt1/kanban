@@ -100,3 +100,44 @@ async def select_lobby_tasks(lobby_id, session: AsyncSession):
     stmt = db.select(task, lobby).join(lobby, task.c.lobby_id == lobby.c.lobby_id).where(task.c.lobby_id == lobby_id)
     res = await session.execute(stmt)
     return res.mappings().fetchall()
+
+
+async def delete_task(task_id, session: AsyncSession):
+    stmt = task.delete().where(task.c.task_id == task_id)
+    await session.execute(stmt)
+    await session.commit()
+    return {"detail": "done"}
+
+
+async def update_task(task_id, data, session: AsyncSession, field: str, old_field):
+    dict_data = data.dict()
+    if dict_data.get(field):
+        stmt = db.update(task).where(task.c.task_id == task_id).values(**{old_field: dict_data[field]})
+        await session.execute(stmt)
+        await session.commit()
+        return {"detail": "done"}
+    else:
+        return {"detail": "nothing to update"}
+
+
+async def update_task_tittle(task_id, data, session: AsyncSession):
+    return await update_task(task_id, data, session, "new_tittle", "task_tittle")
+
+
+async def update_task_actor(task_id, data, session: AsyncSession):
+    return await update_task(task_id, data, session, "new_actor", "actor")
+
+
+async def update_task_deadline(task_id, data, session: AsyncSession):
+    return await update_task(task_id, data, session, "new_deadline", "task_deadline")
+
+
+async def update_task_status(task_id, data, session: AsyncSession):
+    dict_data = data.dict()
+    if dict_data.get("new_status"):
+        stmt = db.update(task).where(task.c.task_id == task_id).values(task_status=dict_data["new_status"].value)
+        await session.execute(stmt)
+        await session.commit()
+        return {"detail": "done"}
+    else:
+        return {"detail": "nothing to update"}
