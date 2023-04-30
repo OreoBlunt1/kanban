@@ -16,17 +16,21 @@ function BoardColumn(props) {
 				$push: [
 					{
 						text: taskControls['text'].value,
-						date: dateDiffInDays(date),
+						date: dateDiff(date),
 					},
 				],
 			})
 		);
 	};
 
-	function dateDiffInDays(date) {
+	function dateDiff(date) {
 		const currentDate = new Date();
 		const dateDiff = date - currentDate;
 		const days = Math.round(dateDiff / 86400000);
+		if (days === 0) {
+			const hours = Math.round(dateDiff / 3600000);
+			return hours;
+		}
 		return days;
 	}
 

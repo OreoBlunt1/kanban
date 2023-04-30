@@ -20,6 +20,9 @@ function AddTask(props) {
 	});
 	const [date, setDate] = useState(null);
 
+	console.log('rendered');
+	console.log('');
+
 	const onTaskChangeHandler = (event, controlName) => {
 		const newTaskControls = { ...taskControls };
 		const control = newTaskControls[controlName];
@@ -53,6 +56,7 @@ function AddTask(props) {
 	};
 
 	function isFormValid() {
+		setTouched(true);
 		if (taskControls.text.value === '') {
 			setIsTaskInvalid(true);
 		} else {
@@ -67,7 +71,6 @@ function AddTask(props) {
 	}
 
 	function addNewTask() {
-		setTouched(true);
 		if (isFormValid()) {
 			props.onAdd(taskControls, date);
 			setIsDateInvalid(false);
@@ -105,10 +108,10 @@ function AddTask(props) {
 				<Button onClick={addNewTask}>Добавить задачу</Button>
 				<div className={classes.Exceptions}>
 					{isTaskInvalid && touched ? (
-						<span>*Поле задачи не должно быть пустым</span>
+						<span>* Поле задачи не должно быть пустым</span>
 					) : null}
 					{isDateInvalid && touched ? (
-						<span>*Дедлайн отсутствует либо уже прошел</span>
+						<span>* Дедлайн отсутствует либо уже прошел</span>
 					) : null}
 				</div>
 			</div>
