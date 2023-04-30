@@ -21,6 +21,15 @@
     margin-bottom: 24px;
 }
 
+.AddTask span {
+    display: block;
+    color: #DA1E28;
+}
+
+.Exceptions {
+    margin-top: 10px;
+}
+
 .Header h1 {
     font-style: normal;
     font-weight: 500;
