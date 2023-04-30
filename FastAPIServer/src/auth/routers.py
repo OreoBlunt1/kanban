@@ -19,4 +19,7 @@ jwt = APIRouter(
 
 @jwt.get("/token")
 def generate_api_key(request: Request, user: User = Depends(fastapi_users.current_user(active=True))):
+    """
+    get jwt from current session
+    """
     return {"access_token": request.cookies["user_jwt"]}
