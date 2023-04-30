@@ -1,26 +1,23 @@
-import React, { useEffect, useState } from "react";
-import classes from "./AddTask.module.css";
-import { ReactComponent as CloseEmpty } from "../Settings/img/CloseEmpty.svg";
-import Backdrop from "../UI/Backdrop/Backdrop";
-import Input from "../UI/Input/Input";
-import Button from "../UI/Button/Button";
+import React, { useEffect, useState } from 'react';
+import classes from './AddTask.module.css';
+import { ReactComponent as CloseEmpty } from '../Settings/img/CloseEmpty.svg';
+import Backdrop from '../UI/Backdrop/Backdrop';
+import Input from '../UI/Input/Input';
+import Button from '../UI/Button/Button';
+import DateInput from '../UI/DateInput/DateInput';
 
 function AddTask(props) {
 	const [taskControls, setTaskControls] = useState({
 		text: {
-			value: "",
-			type: "text",
-			label: "Задача",
-			placeholder: "",
-		},
-		date: {
-			value: "",
-			type: "text",
-			label: "Дней на выполнение",
+			value: '',
+			type: 'text',
+			label: 'Задача',
+			placeholder: '',
 		},
 	});
+	const [date, setDate] = useState(null);
 
-	const onChangeHandler = (event, controlName) => {
+	const onTaskChangeHandler = (event, controlName) => {
 		const newTaskControls = { ...taskControls };
 		const control = newTaskControls[controlName];
 
@@ -28,6 +25,10 @@ function AddTask(props) {
 		newTaskControls[controlName] = control;
 
 		setTaskControls(newTaskControls);
+	};
+
+	const onDateChangeHandler = (event) => {
+		setDate(event.$d);
 	};
 
 	const renderInputs = () => {
@@ -42,7 +43,7 @@ function AddTask(props) {
 					placeholder={control.placeholder}
 					shouldValidate={!!control.validation}
 					onChange={(event) => {
-						onChangeHandler(event, controlName);
+						onTaskChangeHandler(event, controlName);
 					}}
 				/>
 			);
@@ -56,10 +57,10 @@ function AddTask(props) {
 			}
 		}
 
-		document.addEventListener("keydown", handleEscClose);
+		document.addEventListener('keydown', handleEscClose);
 
 		return () => {
-			document.removeEventListener("keydown", handleEscClose);
+			document.removeEventListener('keydown', handleEscClose);
 		};
 	}, [props]);
 
@@ -71,9 +72,15 @@ function AddTask(props) {
 					<CloseEmpty className={classes.Close} onClick={props.onClose} />
 				</div>
 				{renderInputs()}
+				<DateInput
+					onDateChange={(event) => {
+						onDateChangeHandler(event);
+					}}
+				/>
 				<Button
 					onClick={() => {
-						props.onAdd(taskControls);
+						props.onAdd(taskControls, date);
+						console.log();
 					}}
 				>
 					Добавить задачу

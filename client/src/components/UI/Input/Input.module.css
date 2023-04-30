@@ -56,3 +56,7 @@
 .Input.valid h2 {
     color: black;
 }
+
+.MuiPickersPopper-root {
+    background-color: black;
+}
