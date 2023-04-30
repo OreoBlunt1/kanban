@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './DateInput.module.css';
 import { DatePicker } from '@mui/x-date-pickers';
 
-export default function DateInput({ onDateChange }) {
+export default function DateInput({ onDateChange, onKeyDown }) {
 	return (
 		<div className={classes.DateInput}>
 			<h1>Дедлайн</h1>
@@ -10,6 +10,7 @@ export default function DateInput({ onDateChange }) {
 				slotProps={{
 					popper: { placement: 'bottom-end' },
 					desktopPaper: { sx: 'border-radius: 16px' },
+					field: { onKeyDown: onKeyDown },
 				}}
 				format='DD/MM/YYYY'
 				onChange={onDateChange}

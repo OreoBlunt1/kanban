@@ -16,28 +16,38 @@ function BoardColumn(props) {
 				$push: [
 					{
 						text: taskControls['text'].value,
-						date: dateDiffInDays(date),
+						date: dateDiff(date),
 					},
 				],
 			})
 		);
 	};
 
-	function dateDiffInDays(date) {
+	function deleteTask(index) {
+		setTasks(
+			update(tasks, {
+				$splice: [[index, 1]],
+			})
+		);
+		console.log(typeof index);
+	}
+
+	function dateDiff(date) {
 		const currentDate = new Date();
 		const dateDiff = date - currentDate;
 		const days = Math.round(dateDiff / 86400000);
-		return days;
+
+		if (days === 0) {
+			const hours = Math.round(dateDiff / 3600000);
+			return { hours: hours };
+		}
+
+		return { days: days };
 	}
 
 	function toggleAddTask() {
 		setIsAddTask((prev) => !prev);
 	}
-
-	const updateTasks = (newTasks) => {
-		console.log('updateTasks');
-		setTasks(newTasks);
-	};
 
 	function renderTasks() {
 		return tasks.map((task, index) => {
@@ -46,9 +56,9 @@ function BoardColumn(props) {
 					text={task['text']}
 					date={task['date']}
 					key={index}
-					index={index}
+					id={index}
 					tasks={tasks}
-					updateTasks={updateTasks}
+					onDelete={deleteTask}
 				/>
 			);
 		});
