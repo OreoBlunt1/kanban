@@ -23,6 +23,15 @@ function BoardColumn(props) {
 		);
 	};
 
+	function deleteTask(index) {
+		setTasks(
+			update(tasks, {
+				$splice: [[index, 1]],
+			})
+		);
+		console.log(typeof index);
+	}
+
 	function dateDiff(date) {
 		const currentDate = new Date();
 		const dateDiff = date - currentDate;
@@ -40,11 +49,6 @@ function BoardColumn(props) {
 		setIsAddTask((prev) => !prev);
 	}
 
-	const updateTasks = (newTasks) => {
-		console.log('updateTasks');
-		setTasks(newTasks);
-	};
-
 	function renderTasks() {
 		return tasks.map((task, index) => {
 			return (
@@ -52,9 +56,9 @@ function BoardColumn(props) {
 					text={task['text']}
 					date={task['date']}
 					key={index}
-					index={index}
+					id={index}
 					tasks={tasks}
-					updateTasks={updateTasks}
+					onDelete={deleteTask}
 				/>
 			);
 		});

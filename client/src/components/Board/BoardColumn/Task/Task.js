@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import classes from './Task.module.css';
 import { ReactComponent as Avatar } from './img/Avatar.svg';
+import { ReactComponent as CloseEmpty } from './img/CloseEmpty.svg';
 
-function Task({ date, text }) {
+function Task({ date, text, id, onDelete }) {
 	const [deadlineColor, setDeadlineColor] = useState(null);
 
 	function dateRightEnding() {
@@ -53,14 +54,22 @@ function Task({ date, text }) {
 
 	return (
 		<div className={classes.Task}>
-			<span
-				style={{
-					color: deadlineColor,
-				}}
-			>
-				{date.days ? date.days : date.hours} {dateRightEnding()} до окончания
-				срока
-			</span>
+			<div className={classes.Header}>
+				<span
+					style={{
+						color: deadlineColor,
+					}}
+				>
+					{date.days ? date.days : date.hours} {dateRightEnding()} до окончания
+					срока
+				</span>
+				<CloseEmpty
+					className={classes.Close}
+					onClick={() => {
+						onDelete(id);
+					}}
+				/>
+			</div>
 			<div className={classes.Row}>
 				<p>{text}</p>
 				<Avatar className={classes.Icon} />
