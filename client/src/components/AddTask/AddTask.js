@@ -7,6 +7,7 @@ import Button from '../UI/Button/Button';
 import DateInput from '../UI/DateInput/DateInput';
 
 function AddTask(props) {
+	const [isFormValid, setIsFormValid] = useState(false);
 	const [touched, setTouched] = useState(false);
 	const [isTaskInvalid, setIsTaskInvalid] = useState(true);
 	const [isDateInvalid, setIsDateInvalid] = useState(true);
@@ -19,9 +20,6 @@ function AddTask(props) {
 		},
 	});
 	const [date, setDate] = useState(null);
-
-	console.log('rendered');
-	console.log('');
 
 	const onTaskChangeHandler = (event, controlName) => {
 		const newTaskControls = { ...taskControls };
@@ -37,6 +35,12 @@ function AddTask(props) {
 		setDate(event.$d);
 	};
 
+	const onEnterPressedHandler = (event) => {
+		if (event.key == 'Enter') {
+			addNewTask();
+		}
+	};
+
 	const renderInputs = () => {
 		return Object.keys(taskControls).map((controlName, index) => {
 			const control = taskControls[controlName];
@@ -50,33 +54,41 @@ function AddTask(props) {
 					onChange={(event) => {
 						onTaskChangeHandler(event, controlName);
 					}}
+					onKeyDown={(event) => {
+						onEnterPressedHandler(event);
+					}}
 				/>
 			);
 		});
 	};
 
-	function isFormValid() {
-		setTouched(true);
-		if (taskControls.text.value === '') {
-			setIsTaskInvalid(true);
-		} else {
-			setIsTaskInvalid(false);
-		}
-		if (date - Date.now() <= 0) {
-			setIsDateInvalid(true);
-		} else {
-			setIsDateInvalid(false);
-		}
-		return !isDateInvalid && !isTaskInvalid;
-	}
-
 	function addNewTask() {
-		if (isFormValid()) {
+		if (isFormValid) {
 			props.onAdd(taskControls, date);
 			setIsDateInvalid(false);
 			setIsTaskInvalid(false);
+		} else {
+			setTouched(true);
 		}
 	}
+
+	useEffect(() => {
+		function isValid() {
+			if (taskControls.text.value === '') {
+				setIsTaskInvalid(true);
+			} else {
+				setIsTaskInvalid(false);
+			}
+			if (date - Date.now() <= 0) {
+				setIsDateInvalid(true);
+			} else {
+				setIsDateInvalid(false);
+			}
+			return !isDateInvalid && !isTaskInvalid;
+		}
+
+		setIsFormValid(isValid());
+	}, [taskControls, date, isTaskInvalid, isDateInvalid]);
 
 	useEffect(() => {
 		function handleEscClose(event) {
@@ -101,6 +113,9 @@ function AddTask(props) {
 				</div>
 				{renderInputs()}
 				<DateInput
+					onKeyDown={(event) => {
+						onEnterPressedHandler(event);
+					}}
 					onDateChange={(event) => {
 						onDateChangeHandler(event);
 					}}

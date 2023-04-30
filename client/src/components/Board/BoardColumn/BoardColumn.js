@@ -27,11 +27,13 @@ function BoardColumn(props) {
 		const currentDate = new Date();
 		const dateDiff = date - currentDate;
 		const days = Math.round(dateDiff / 86400000);
+
 		if (days === 0) {
 			const hours = Math.round(dateDiff / 3600000);
-			return hours;
+			return { hours: hours };
 		}
-		return days;
+
+		return { days: days };
 	}
 
 	function toggleAddTask() {
