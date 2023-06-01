@@ -163,9 +163,7 @@ function Signup() {
 
 	const onEnterPressedHandler = (event) => {
 		if (event.key === 'Enter') {
-			if (isFormValid) {
-				navigate('/home');
-			}
+			register();
 		}
 	};
 
@@ -175,7 +173,28 @@ function Signup() {
 		}
 	};
 
-	const registerUser = () => {};
+	const register = async (userData) => {
+		if (isFormValid) {
+			try {
+				userData = {
+					email: formControls.email.value,
+					password: formControls.password.value,
+					is_active: true,
+					is_superuser: false,
+					is_verified: false,
+					login: formControls.username.value,
+					photo_src: '/',
+				};
+				const response = await axios.post(
+					'http://80.90.186.118/auth/register',
+					userData
+				);
+				console.log(response);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	};
 
 	return (
 		<div className={classes.Signup}>
@@ -187,7 +206,7 @@ function Signup() {
 					</p>
 					<hr />
 					{renderInputs()}
-					<Button onClick={useGoHome}>Зарегистрироваться</Button>
+					<Button onClick={register}>Зарегистрироваться</Button>
 				</form>
 			</div>
 		</div>

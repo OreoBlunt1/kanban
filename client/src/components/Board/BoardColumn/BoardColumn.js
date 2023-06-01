@@ -4,9 +4,18 @@ import classes from './BoardColumn.module.css';
 import { ReactComponent as AddEmpty } from './img/AddEmpty.svg';
 import { ReactComponent as MoreHorizontal } from './img/MoreHorizontal.svg';
 import Task from './Task/Task';
+import { moveTask } from '../Board';
 import update from 'immutability-helper';
+import { useDrop } from 'react-dnd';
 
 function BoardColumn(props) {
+	const [{ isOver }, drop] = useDrop(() => ({
+		accept: 'task',
+		drop: (item) => moveTask(props.id, item.id),
+		collect: (monitor) => ({
+			isOver: !!monitor.isOver(),
+		}),
+	}));
 	const [isAddTask, setIsAddTask] = useState(false);
 	const [tasks, setTasks] = useState([]);
 
@@ -15,6 +24,7 @@ function BoardColumn(props) {
 			update(tasks, {
 				$push: [
 					{
+						id: tasks.length,
 						text: taskControls['text'].value,
 						date: dateDiff(date),
 					},
@@ -29,7 +39,6 @@ function BoardColumn(props) {
 				$splice: [[index, 1]],
 			})
 		);
-		console.log(typeof index);
 	}
 
 	function dateDiff(date) {
@@ -56,7 +65,7 @@ function BoardColumn(props) {
 					text={task['text']}
 					date={task['date']}
 					key={index}
-					id={index}
+					id={task.id}
 					tasks={tasks}
 					onDelete={deleteTask}
 				/>
@@ -65,7 +74,7 @@ function BoardColumn(props) {
 	}
 
 	return (
-		<>
+		<div ref={drop} className={classes.wrapper}>
 			<div className={classes.BoardColumn}>
 				<div className={classes.Header}>
 					<span>{props.type}</span>
@@ -75,11 +84,33 @@ function BoardColumn(props) {
 					</div>
 				</div>
 				{tasks.length !== 0 ? (
-					<div className={classes.TaskContent}>{renderTasks()}</div>
+					<div className={classes.TaskContent}>
+						{renderTasks()}{' '}
+						{isOver ? (
+							<div
+								style={{
+									background: 'rgba(54, 93, 255, .7)',
+									height: '76px',
+									borderRadius: '12px',
+									padding: '8px',
+								}}
+							/>
+						) : null}
+					</div>
+				) : isOver && isOver ? (
+					<div
+						style={{
+							background: 'rgba(54, 93, 255, .4)',
+							borderRadius: '12px',
+							padding: '8px',
+							marginTop: '17px',
+							height: '100%',
+						}}
+					/>
 				) : null}
 			</div>
 			{isAddTask ? <AddTask onClose={toggleAddTask} onAdd={addTask} /> : null}
-		</>
+		</div>
 	);
 }
 

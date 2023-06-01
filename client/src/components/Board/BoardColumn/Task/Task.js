@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import classes from './Task.module.css';
+import { useDrag } from 'react-dnd';
 import { ReactComponent as Avatar } from './img/Avatar.svg';
 import { ReactComponent as CloseEmpty } from './img/CloseEmpty.svg';
 
 function Task({ date, text, id, onDelete }) {
 	const [deadlineColor, setDeadlineColor] = useState(null);
+	const [{ isDragging }, drag] = useDrag(() => ({
+		type: 'task',
+		item: { id: id },
+		collect: (monitor) => ({
+			isDragging: !!monitor.isDragging(),
+		}),
+	}));
 
 	function dateRightEnding() {
 		const exceptions = { 11: null, 12: null, 13: null, 14: null };
@@ -42,7 +50,6 @@ function Task({ date, text, id, onDelete }) {
 	}
 
 	useEffect(() => {
-		console.log(date.days);
 		if (date.days >= 14) {
 			setDeadlineColor('#0B6142');
 		} else if (date.days >= 3) {
@@ -53,7 +60,11 @@ function Task({ date, text, id, onDelete }) {
 	}, [date]);
 
 	return (
-		<div className={classes.Task}>
+		<div
+			ref={drag}
+			style={{ opacity: isDragging ? 0.5 : 0.99 }}
+			className={classes.Task}
+		>
 			<div className={classes.Header}>
 				<span
 					style={{
